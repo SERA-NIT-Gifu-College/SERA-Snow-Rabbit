@@ -18,7 +18,7 @@
             "netdev"
             "adm"
         ];
-        initialHashedPassword = "$y$j9T$Xw.k8d6X5VcDTFqztmxUm0$s2nCCGuwHN1KHjJh/HYnRNNF.d/wgBN2Y2/HWGSnIa.";
+        initialHashedPassword = "$y$j9T$2y7ILsWF9xVSfVg0CUp671$vrJB8OtjdjIcrJdJkU3hBMYRmuZSg3v7vlc9hITTRD6";
         createHome = true;
         home = "/home/sera";
         uid = 1000;
