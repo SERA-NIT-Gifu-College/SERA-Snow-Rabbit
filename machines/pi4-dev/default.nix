@@ -2,7 +2,6 @@
 {
     imports = [
         ../../system
-        ../../system/kernel.nix
     ];
 
     hardware = {
@@ -14,6 +13,7 @@
     };
 
     boot = {
+        kernelPackages = pkgs.linuxPackages;
         initrd.availableKernelModules = [ "xhci_pci" "usbhid" "usb_storage" ];
         loader = {
             grub.enable = false;
