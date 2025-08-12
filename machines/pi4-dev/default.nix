@@ -29,7 +29,7 @@
         };
     };
 
-    console.enable = false;
+    console.enable = true;
 
     networking = {
         hostName = systemSettings.hostname;
