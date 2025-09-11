@@ -17,4 +17,5 @@ in
 {
     pi4-dev = mkHost "pi4-dev";
     zero2w-dev = mkHost "zero2w-dev";
+    schraubendreher-dev = mkHost "schraubendreher-dev";
 }
