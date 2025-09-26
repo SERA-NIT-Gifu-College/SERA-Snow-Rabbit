@@ -8,42 +8,22 @@
             url = "github:nix-community/nixos-generators";
             inputs.nixpkgs.follows = "nixpkgs";
         };
+        flake-utils.url = "github:numtide/flake-utils";
     };
 
-    outputs = inputs@{ self, nixpkgs, nixos-generators, nixos-hardware, ... }:
-        let
-            pkgs = import inputs.nixpkgs {
-                system = "aarch64-linux";
-                hostPlatform = "x86_64-linux";
-            };
+    outputs = inputs@{ self, nixpkgs, nixos-generators, nixos-hardware, flake-utils, ... }:
+        inputs.flake-utils.lib.eachDefaultSystem (system:
+            let
+                pkgs = import inputs.nixpkgs {
+                    localSystem = system;
+                    crossSystem = "aarch64-linux";
+                };
 
-            lib = inputs.nixpkgs.lib;
-        in
-        {
-            nixosConfigurations = import ./machines/nixosConfig.nix inputs;
-            packages.aarch64-linux = import ./machines/sdImage.nix inputs;
-            #nixosModules = {
-            #    system = {
-            #        disabledModules = [ "profiles/base.nix" ];
-            #        system.stateVersion = "25.05";
-            #    };
-            #    users = {
-            #        users.users = {
-            #            test = {
-            #                password = "test";
-            #                isNormalUser = true;
-            #                extraGroups = [ "wheel" ];
-            #            };
-            #        };
-            #    };
-            #};
-
-            #packages.aarch64-linux = {
-            #    sdcard = nixos-generators.nixosGenerate {
-            #        system = "aarch64-linux";
-            #        format = "sd-aarch64";
-            #        modules = with self.nixosModules; [ system users ];
-            #    };
-            #};
-        };
+                lib = inputs.nixpkgs.lib;
+            in
+            {
+                nixosConfigurations = import ./machines/nixosConfig.nix inputs;
+                packages = import ./machines/sdImage.nix inputs;
+            }
+        );
 }

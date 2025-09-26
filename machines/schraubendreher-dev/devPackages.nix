@@ -7,7 +7,7 @@
         cmake
         pkg-config
         autoconf
-	libgpiod
+        libgpiod
         gdb
         ninja
         curl
