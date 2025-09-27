@@ -20,5 +20,6 @@ in
     sd-pi4-dev = mkImage "pi4-dev" nixos-hardware.nixosModules.raspberry-pi-4;
     sd-zero2w-dev = mkImage "zero2w-dev" builtins.null;
     sd-schraubendreher-dev = mkImage "schraubendreher-dev" builtins.null;
+    sd-schraubendreher = mkImage "schraubendreher" builtins.null;
 }
         

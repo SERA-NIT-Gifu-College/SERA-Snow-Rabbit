@@ -9,6 +9,5 @@
             "8.8.4.4"
             "1.1.1.1"
         ];
-        networkmanager.enable = false;
     };
 }

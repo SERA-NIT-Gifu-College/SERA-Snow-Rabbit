@@ -1,14 +1,13 @@
 { config, pkgs, lib, systemSettings, ... }:
 {
     imports = [
-        ../../system
-        ./devPackages.nix
+        ../../system;
     ];
 
     hardware = {
         deviceTree = {
             enable = true;
-            filter = "*rpi-zero-2-*.dtb";
+            filter = "*rpi-zero-2-*.dtb*";
         };
         enableRedistributableFirmware = true;
     };
@@ -35,36 +34,32 @@
     networking = {
         hostName = systemSettings.hostname;
         wireless = {
-            enable = builtins.stringLength systemSettings.SSID != 0;
+            enable = true;
             networks."${systemSettings.SSID}".psk = systemSettings.SSIDpsk;
             interfaces = [ "wlan0" ];
         };
-        networkmanager.enable = builtins.stringLength systemSettings.SSID == 0;
     };
 
-    services.sshd.enable = true;
-    systemd.services.sshd.wantedBy = lib.mkOverride 40 ["multi-user.target" ];
+    services = {
+        sshd.enable = true;
+        nginx = {
+            enable = true;
+            clientMaxBodySize = "4M";
+            recommendedProxySettings = true;
+            recommendedOptimisation = true;
+            recommendedGzipSettings = true;
+            virtualHosts."localhost" = {
+                locations."/" = {
+                    proxyPass = "http://localhost:8080/";
+                };
+            };
+        };
+    };
+
+    systemd.services.sshd.wantedBy = lib.mkOverride 40 [ "multi-user.target" ];
 
     networking.firewall = {
         enable = true;
         allowedTCPPorts = [ 80 443 22 ];
-        allowedTCPPortRanges = [
-            {
-                from = 3000;
-                to = 3030;
-            }
-            {
-                from = 8000;
-                to = 8080;
-            }
-        ];
-        allowedUDPPortRanges = [
-            {
-                from = 60000;
-                to = 61000;
-            }
-        ];
     };
-
-    system.stateVersion = "25.05";
 }
