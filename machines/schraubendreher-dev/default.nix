@@ -41,7 +41,7 @@
     console.enable = true;
 
     networking = {
-        hostName = systemSettings.hostname;
+        hostName = "schraubendreher-dev";
         wireless = {
             enable = builtins.stringLength systemSettings.SSID != 0;
             networks."${systemSettings.SSID}".psk = systemSettings.SSIDpsk;
