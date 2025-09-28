@@ -11,11 +11,14 @@
             filter = "*rpi-zero-2-*.dtb";
         };
         enableRedistributableFirmware = true;
+        bluetooth = {
+            enable = false;
+            powerOnBoot = false;
+        };
     };
 
     boot = {
         kernelPackages = pkgs.linuxPackages;
-        initrd.availableKernelModules = [ "xhci_pci" "usbhid" "usb_storage" ];
         loader = {
             grub.enable = false;
             generic-extlinux-compatible.enable = true;
@@ -29,6 +32,11 @@
             options = [ "noatime" ];
         };
     };
+
+    swapDevices = [{
+        device = "/var/lib/swapfile";
+        size = 8 * 1024;
+    }];
 
     console.enable = true;
 
